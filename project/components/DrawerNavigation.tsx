@@ -189,7 +189,7 @@ export default function DrawerNavigation({ visible, onClose }: DrawerNavigationP
       paddingTop: 20,
     },
   });
-  const MenuItem = ({ icon, title, subtitle, onPress, danger = false }) => (
+  const MenuItem = ({ icon, title, subtitle, onPress, danger = false, rightComponent }) => (
     <TouchableOpacity style={dynamicStyles.menuItem} onPress={onPress}>
       <View style={dynamicStyles.menuLeft}>
         <View style={[dynamicStyles.menuIcon, danger && dynamicStyles.dangerIcon]}>
