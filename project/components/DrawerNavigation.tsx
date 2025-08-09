@@ -253,15 +253,7 @@ export default function DrawerNavigation({ visible, onClose }: DrawerNavigationP
 
             {/* Menu Items */}
             <View style={dynamicStyles.menuSection}>
-              <MenuItem
-                icon={<User color={colors.textSecondary} size={20} />}
-                title="Profile"
-                subtitle="Update personal information"
-                onPress={() => {
-                  onClose();
-                  Alert.alert('Profile', 'Profile management coming soon');
-                }}
-              />
+
 
               <MenuItem
                 icon={<Car color={colors.textSecondary} size={20} />}

@@ -13,7 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
-import { ArrowLeft, Car, Plus, CreditCard as Edit, X, Check } from 'lucide-react-native';
+import { ArrowLeft, Car, Plus, X, Check } from 'lucide-react-native';
 
 const carTypes = ['Sedan', 'Hatchback', 'SUV', 'Innova', 'Innova Crysta', 'Other'];
 
@@ -22,10 +22,7 @@ export default function MyCarsScreen() {
   const { colors } = useTheme();
   const router = useRouter();
   const [showAddModal, setShowAddModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
   const [newCar, setNewCar] = useState({ name: '', type: '', registration: '' });
-  const [editingCar, setEditingCar] = useState(null);
-  const [editCar, setEditCar] = useState({ name: '', type: '', registration: '' });
 
   const addCar = () => {
     if (!newCar.name || !newCar.type || !newCar.registration) {
@@ -60,36 +57,7 @@ export default function MyCarsScreen() {
     Alert.alert('Success', 'Default car updated');
   };
 
-  const startEditCar = (car) => {
-    setEditingCar(car);
-    setEditCar({ name: car.name, type: car.type, registration: car.registration });
-    setShowEditModal(true);
-  };
 
-  const updateCar = () => {
-    if (!editCar.name || !editCar.type || !editCar.registration) {
-      Alert.alert('Error', 'Please fill all fields');
-      return;
-    }
-
-    const updatedCars = user?.cars?.map(car => 
-      car.id === editingCar.id 
-        ? { ...car, ...editCar }
-        : car
-    );
-
-    setUser({ ...user, cars: updatedCars });
-    setEditCar({ name: '', type: '', registration: '' });
-    setEditingCar(null);
-    setShowEditModal(false);
-    Alert.alert('Success', 'Car updated successfully');
-  };
-
-  const cancelEdit = () => {
-    setEditCar({ name: '', type: '', registration: '' });
-    setEditingCar(null);
-    setShowEditModal(false);
-  };
 
   const dynamicStyles = StyleSheet.create({
     container: {
@@ -324,12 +292,7 @@ export default function MyCarsScreen() {
             </Text>
           </TouchableOpacity>
         )}
-        <TouchableOpacity 
-          style={dynamicStyles.actionButton}
-          onPress={() => startEditCar(car)}
-        >
-          <Text style={dynamicStyles.actionButtonText}>Edit</Text>
-        </TouchableOpacity>
+
       </View>
     </View>
   );
@@ -429,76 +392,7 @@ export default function MyCarsScreen() {
         </View>
       </Modal>
 
-      <Modal
-        visible={showEditModal}
-        transparent={true}
-        animationType="slide"
-        onRequestClose={cancelEdit}
-      >
-        <View style={dynamicStyles.modalOverlay}>
-          <View style={dynamicStyles.modalContent}>
-            <View style={dynamicStyles.modalHeader}>
-              <Text style={dynamicStyles.modalTitle}>Edit Car</Text>
-              <TouchableOpacity 
-                onPress={cancelEdit}
-                style={dynamicStyles.closeButton}
-              >
-                <X color={colors.textSecondary} size={24} />
-              </TouchableOpacity>
-            </View>
 
-            <View style={dynamicStyles.inputGroup}>
-              <Text style={dynamicStyles.inputLabel}>Car Name</Text>
-              <TextInput
-                style={dynamicStyles.input}
-                placeholder="e.g., Tata Nexon"
-                value={editCar.name}
-                onChangeText={(value) => setEditCar({ ...editCar, name: value })}
-                placeholderTextColor={colors.textSecondary}
-              />
-            </View>
-
-            <View style={dynamicStyles.inputGroup}>
-              <Text style={dynamicStyles.inputLabel}>Car Type</Text>
-              <View style={dynamicStyles.typeSelector}>
-                {carTypes.map((type) => (
-                  <TouchableOpacity
-                    key={type}
-                    style={[
-                      dynamicStyles.typeButton,
-                      editCar.type === type && dynamicStyles.selectedTypeButton
-                    ]}
-                    onPress={() => setEditCar({ ...editCar, type })}
-                  >
-                    <Text style={[
-                      dynamicStyles.typeButtonText,
-                      editCar.type === type && dynamicStyles.selectedTypeButtonText
-                    ]}>
-                      {type}
-                    </Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            </View>
-
-            <View style={dynamicStyles.inputGroup}>
-              <Text style={dynamicStyles.inputLabel}>Registration Number</Text>
-              <TextInput
-                style={dynamicStyles.input}
-                placeholder="e.g., TN10BZ1234"
-                value={editCar.registration}
-                onChangeText={(value) => setEditCar({ ...editCar, registration: value.toUpperCase() })}
-                autoCapitalize="characters"
-                placeholderTextColor={colors.textSecondary}
-              />
-            </View>
-
-            <TouchableOpacity style={dynamicStyles.submitButton} onPress={updateCar}>
-              <Text style={dynamicStyles.submitButtonText}>Update Car</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
     </SafeAreaView>
   );
 }

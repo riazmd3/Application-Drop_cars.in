@@ -180,12 +180,7 @@ export default function SettingsScreen() {
         <View style={dynamicStyles.section}>
           <Text style={dynamicStyles.sectionTitle}>Account</Text>
           
-          <SettingItem
-            icon={<User color={colors.textSecondary} size={20} />}
-            title="Profile"
-            subtitle="Update your personal information"
-            onPress={() => Alert.alert('Profile', 'Profile management coming soon')}
-          />
+
 
           <SettingItem
             icon={<Shield color={colors.textSecondary} size={20} />}
