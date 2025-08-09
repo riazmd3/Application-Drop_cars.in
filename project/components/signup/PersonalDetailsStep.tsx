@@ -7,7 +7,7 @@ import {
   StyleSheet,
   Alert,
 } from 'react-native';
-import { User, Phone, MapPin, Languages, ArrowRight } from 'lucide-react-native';
+import { User, Phone, MapPin, ArrowRight } from 'lucide-react-native';
 
 interface PersonalDetailsStepProps {
   data: any;
@@ -15,15 +15,27 @@ interface PersonalDetailsStepProps {
   onNext: () => void;
 }
 
+const languagesList = ["Tamil", "English", "Malayalam", "Hindi", "Telugu"];
+
 export default function PersonalDetailsStep({ data, onUpdate, onNext }: PersonalDetailsStepProps) {
   const [name, setName] = useState(data.name || '');
   const [mobile, setMobile] = useState(data.mobile || '');
   const [address, setAddress] = useState(data.address || '');
-  const [languages, setLanguages] = useState(data.languages || '');
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>(data.languages || []);
+
+  const toggleLanguage = (lang: string) => {
+    let updated;
+    if (selectedLanguages.includes(lang)) {
+      updated = selectedLanguages.filter(l => l !== lang);
+    } else {
+      updated = [...selectedLanguages, lang];
+    }
+    setSelectedLanguages(updated);
+  };
 
   const handleNext = () => {
-    if (!name || !mobile || !address || !languages) {
-      Alert.alert('Error', 'Please fill all fields');
+    if (!name || !mobile || !address || selectedLanguages.length === 0) {
+      Alert.alert('Error', 'Please fill all fields and select at least one language');
       return;
     }
 
@@ -36,7 +48,7 @@ export default function PersonalDetailsStep({ data, onUpdate, onNext }: Personal
       name,
       mobile,
       address,
-      languages: languages.split(',').map(lang => lang.trim())
+      languages: selectedLanguages
     };
 
     onUpdate(personalData);
@@ -49,6 +61,7 @@ export default function PersonalDetailsStep({ data, onUpdate, onNext }: Personal
       <Text style={styles.subtitle}>Let's start with your basic information</Text>
 
       <View style={styles.form}>
+        {/* Name */}
         <View style={styles.inputGroup}>
           <User color="#6B7280" size={20} />
           <TextInput
@@ -59,6 +72,7 @@ export default function PersonalDetailsStep({ data, onUpdate, onNext }: Personal
           />
         </View>
 
+        {/* Mobile */}
         <View style={styles.inputGroup}>
           <Phone color="#6B7280" size={20} />
           <TextInput
@@ -71,6 +85,7 @@ export default function PersonalDetailsStep({ data, onUpdate, onNext }: Personal
           />
         </View>
 
+        {/* Address */}
         <View style={styles.inputGroup}>
           <MapPin color="#6B7280" size={20} />
           <TextInput
@@ -82,16 +97,21 @@ export default function PersonalDetailsStep({ data, onUpdate, onNext }: Personal
           />
         </View>
 
-        <View style={styles.inputGroup}>
-          <Languages color="#6B7280" size={20} />
-          <TextInput
-            style={styles.input}
-            placeholder="Languages Spoken (comma separated)"
-            value={languages}
-            onChangeText={setLanguages}
-          />
-        </View>
+        {/* Languages */}
+        <Text style={styles.label}>Select Spoken Languages</Text>
+        {languagesList.map((lang) => (
+          <TouchableOpacity
+            key={lang}
+            style={[styles.option, selectedLanguages.includes(lang) && styles.selected]}
+            onPress={() => toggleLanguage(lang)}
+          >
+            <Text style={styles.optionText}>
+              {selectedLanguages.includes(lang) ? '✔ ' : ''}{lang}
+            </Text>
+          </TouchableOpacity>
+        ))}
 
+        {/* Next Button */}
         <TouchableOpacity style={styles.nextButton} onPress={handleNext}>
           <Text style={styles.nextButtonText}>Next</Text>
           <ArrowRight color="#FFFFFF" size={20} />
@@ -102,24 +122,10 @@ export default function PersonalDetailsStep({ data, onUpdate, onNext }: Personal
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 24,
-    fontFamily: 'Inter-Bold',
-    color: '#1F2937',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 14,
-    fontFamily: 'Inter-Regular',
-    color: '#6B7280',
-    marginBottom: 32,
-  },
-  form: {
-    flex: 1,
-  },
+  container: { flex: 1 },
+  title: { fontSize: 24, fontFamily: 'Inter-Bold', color: '#1F2937', marginBottom: 8 },
+  subtitle: { fontSize: 14, fontFamily: 'Inter-Regular', color: '#6B7280', marginBottom: 32 },
+  form: { flex: 1 },
   inputGroup: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -136,13 +142,17 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 2,
   },
-  input: {
-    flex: 1,
-    marginLeft: 12,
-    fontSize: 16,
-    fontFamily: 'Inter-Medium',
-    color: '#1F2937',
+  input: { flex: 1, marginLeft: 12, fontSize: 16, fontFamily: 'Inter-Medium', color: '#1F2937' },
+  label: { fontSize: 16, fontWeight: 'bold', marginBottom: 10 },
+  option: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    marginBottom: 8,
   },
+  selected: { backgroundColor: '#cce5ff', borderColor: '#3399ff' },
+  optionText: { fontSize: 14 },
   nextButton: {
     backgroundColor: '#3B82F6',
     borderRadius: 12,
@@ -152,10 +162,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 24,
   },
-  nextButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontFamily: 'Inter-SemiBold',
-    marginRight: 8,
-  },
+  nextButtonText: { color: '#FFFFFF', fontSize: 16, fontFamily: 'Inter-SemiBold', marginRight: 8 },
 });
