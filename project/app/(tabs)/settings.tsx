@@ -54,6 +54,12 @@ export default function SettingsScreen() {
       fontSize: 24,
       fontFamily: 'Inter-Bold',
       color: colors.text,
+      marginBottom: 4,
+    },
+    headerSubtitle: {
+      fontSize: 14,
+      fontFamily: 'Inter-Medium',
+      color: colors.textSecondary,
     },
     content: {
       flex: 1,
@@ -142,6 +148,7 @@ export default function SettingsScreen() {
     <SafeAreaView style={dynamicStyles.container}>
       <View style={dynamicStyles.header}>
         <Text style={dynamicStyles.headerTitle}>Settings</Text>
+        <Text style={dynamicStyles.headerSubtitle}>Welcome back, {user?.name}!</Text>
       </View>
 
       <ScrollView style={dynamicStyles.content} showsVerticalScrollIndicator={false}>

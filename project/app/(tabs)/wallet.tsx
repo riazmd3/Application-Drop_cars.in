@@ -11,12 +11,14 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useWallet } from '@/contexts/WalletContext';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { IndianRupee, Plus, ArrowUpRight, ArrowDownLeft } from 'lucide-react-native';
 import RazorpayCheckout from 'react-native-razorpay';
 
 export default function WalletScreen() {
   const { balance, addMoney, transactions } = useWallet();
   const { colors } = useTheme();
+  const { user } = useAuth();
   const [addAmount, setAddAmount] = useState('');
 
   const quickAmounts = [100, 500, 1000];
@@ -243,6 +245,7 @@ export default function WalletScreen() {
     <SafeAreaView style={dynamicStyles.container}>
       <View style={dynamicStyles.header}>
         <Text style={dynamicStyles.headerTitle}>Wallet</Text>
+        <Text style={dynamicStyles.headerSubtitle}>Welcome back, {user?.name}!</Text>
       </View>
 
       <ScrollView style={dynamicStyles.content} showsVerticalScrollIndicator={false}>

@@ -73,6 +73,12 @@ export default function DashboardScreen() {
     balanceContainer: {
       alignItems: 'center',
     },
+    welcomeText: {
+      fontSize: 14,
+      fontFamily: 'Inter-SemiBold',
+      color: colors.primary,
+      marginBottom: 4,
+    },
     balanceLabel: {
       fontSize: 12,
       fontFamily: 'Inter-Medium',
@@ -102,6 +108,61 @@ export default function DashboardScreen() {
     content: {
       flex: 1,
       paddingHorizontal: 20,
+    },
+    welcomeBanner: {
+      backgroundColor: colors.primary,
+      borderRadius: 16,
+      padding: 20,
+      marginTop: 20,
+      marginBottom: 20,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+      elevation: 4,
+    },
+    welcomeBannerTitle: {
+      fontSize: 18,
+      fontFamily: 'Inter-Bold',
+      color: '#FFFFFF',
+      marginBottom: 8,
+      textAlign: 'center',
+    },
+    welcomeBannerSubtitle: {
+      fontSize: 14,
+      fontFamily: 'Inter-Medium',
+      color: 'rgba(255, 255, 255, 0.9)',
+      textAlign: 'center',
+    },
+    statsContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginBottom: 20,
+    },
+    statCard: {
+      flex: 1,
+      backgroundColor: colors.surface,
+      borderRadius: 12,
+      padding: 16,
+      marginHorizontal: 4,
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.05,
+      shadowRadius: 4,
+      elevation: 2,
+    },
+    statNumber: {
+      fontSize: 20,
+      fontFamily: 'Inter-Bold',
+      color: colors.primary,
+      marginBottom: 4,
+    },
+    statLabel: {
+      fontSize: 12,
+      fontFamily: 'Inter-Medium',
+      color: colors.textSecondary,
+      textAlign: 'center',
     },
     currentTripSection: {
       marginTop: 20,
@@ -229,6 +290,7 @@ export default function DashboardScreen() {
         </TouchableOpacity>
         
         <View style={dynamicStyles.balanceContainer}>
+          <Text style={dynamicStyles.welcomeText}>Welcome back, {user?.name}!</Text>
           <Text style={dynamicStyles.balanceLabel}>Available Balance</Text>
           <Text style={dynamicStyles.balanceAmount}>₹{balance}</Text>
         </View>
@@ -247,6 +309,32 @@ export default function DashboardScreen() {
       )}
 
       <ScrollView style={dynamicStyles.content} showsVerticalScrollIndicator={false}>
+        {/* Welcome Banner */}
+        <View style={dynamicStyles.welcomeBanner}>
+          <Text style={dynamicStyles.welcomeBannerTitle}>
+            🚗 Welcome to Drop Cars, {user?.name}!
+          </Text>
+          <Text style={dynamicStyles.welcomeBannerSubtitle}>
+            Your {user?.cars?.[0]?.name} is ready for service. Start earning today!
+          </Text>
+        </View>
+
+        {/* Quick Stats */}
+        <View style={dynamicStyles.statsContainer}>
+          <View style={dynamicStyles.statCard}>
+            <Text style={dynamicStyles.statNumber}>₹{balance}</Text>
+            <Text style={dynamicStyles.statLabel}>Wallet Balance</Text>
+          </View>
+          <View style={dynamicStyles.statCard}>
+            <Text style={dynamicStyles.statNumber}>{user?.cars?.length || 0}</Text>
+            <Text style={dynamicStyles.statLabel}>Vehicles</Text>
+          </View>
+          <View style={dynamicStyles.statCard}>
+            <Text style={dynamicStyles.statNumber}>{user?.languages?.length || 0}</Text>
+            <Text style={dynamicStyles.statLabel}>Languages</Text>
+          </View>
+        </View>
+
         {currentTrip ? (
           <View style={dynamicStyles.currentTripSection}>
             <Text style={dynamicStyles.sectionTitle}>Current Trip</Text>

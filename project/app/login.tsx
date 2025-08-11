@@ -14,11 +14,13 @@ import { useRouter } from 'expo-router';
 import { useAuth } from '@/contexts/AuthContext';
 import { useTheme } from '@/contexts/ThemeContext';
 import { Smartphone, Lock, ArrowRight } from 'lucide-react-native';
+import WelcomeScreen from '@/components/WelcomeScreen';
 
 export default function LoginScreen() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [mpin, setMpin] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showWelcome, setShowWelcome] = useState(false);
   const router = useRouter();
   const { login } = useAuth();
   const { colors } = useTheme();
@@ -55,7 +57,7 @@ export default function LoginScreen() {
         };
         
         await login(dummyUser, 'dummy-jwt-token');
-        router.replace('/(tabs)');
+        setShowWelcome(true);
       } else {
         Alert.alert('Error', 'Invalid credentials. Use test credentials: 9876543210 / 0000');
       }
@@ -70,6 +72,15 @@ export default function LoginScreen() {
     setPhoneNumber('9876543210');
     setMpin('0000');
   };
+
+  const handleWelcomeComplete = () => {
+    setShowWelcome(false);
+    router.replace('/(tabs)');
+  };
+
+  if (showWelcome) {
+    return <WelcomeScreen onComplete={handleWelcomeComplete} />;
+  }
 
   return (
     <LinearGradient colors={['#3B82F6', '#1E40AF']} style={styles.container}>
