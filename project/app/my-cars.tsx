@@ -74,10 +74,19 @@ export default function MyCarsScreen() {
       borderBottomWidth: 1,
       borderBottomColor: colors.border,
     },
+    headerContent: {
+      alignItems: 'center',
+    },
     headerTitle: {
       fontSize: 18,
       fontFamily: 'Inter-SemiBold',
       color: colors.text,
+      marginBottom: 2,
+    },
+    headerSubtitle: {
+      fontSize: 12,
+      fontFamily: 'Inter-Medium',
+      color: colors.textSecondary,
     },
     content: {
       flex: 1,
@@ -303,7 +312,10 @@ export default function MyCarsScreen() {
         <TouchableOpacity onPress={() => router.back()}>
           <ArrowLeft color={colors.text} size={24} />
         </TouchableOpacity>
-        <Text style={dynamicStyles.headerTitle}>My Cars</Text>
+        <View style={dynamicStyles.headerContent}>
+          <Text style={dynamicStyles.headerTitle}>My Cars</Text>
+          <Text style={dynamicStyles.headerSubtitle}>Welcome back, {user?.name}!</Text>
+        </View>
         <View style={{ width: 24 }} />
       </View>
 

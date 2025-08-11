@@ -12,6 +12,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { ArrowLeft, User, Phone, Plus, X, Upload, FileText } from 'lucide-react-native';
 import * as ImagePicker from 'expo-image-picker';
 
@@ -38,6 +39,7 @@ const dummyDrivers = [
 
 export default function MyDriversScreen() {
   const { colors } = useTheme();
+  const { user } = useAuth();
   const router = useRouter();
   const [drivers, setDrivers] = useState(dummyDrivers);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -375,7 +377,10 @@ export default function MyDriversScreen() {
         <TouchableOpacity onPress={() => router.back()}>
           <ArrowLeft color={colors.text} size={24} />
         </TouchableOpacity>
-        <Text style={dynamicStyles.headerTitle}>My Drivers</Text>
+        <View style={dynamicStyles.headerContent}>
+          <Text style={dynamicStyles.headerTitle}>My Drivers</Text>
+          <Text style={dynamicStyles.headerSubtitle}>Welcome back, {user?.name}!</Text>
+        </View>
         <View style={{ width: 24 }} />
       </View>
 

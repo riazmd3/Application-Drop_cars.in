@@ -421,7 +421,7 @@ export default function FutureRidesScreen() {
     <SafeAreaView style={dynamicStyles.container}>
       <View style={dynamicStyles.header}>
         <Text style={dynamicStyles.headerTitle}>Future Rides</Text>
-        <Text style={dynamicStyles.headerSubtitle}>Upcoming bookings</Text>
+        <Text style={dynamicStyles.headerSubtitle}>Welcome back, {user?.name}! • Upcoming bookings</Text>
       </View>
 
       <ScrollView style={dynamicStyles.content} showsVerticalScrollIndicator={false}>
