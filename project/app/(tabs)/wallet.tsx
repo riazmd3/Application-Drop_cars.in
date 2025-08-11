@@ -66,6 +66,12 @@ export default function WalletScreen() {
       fontSize: 24,
       fontFamily: 'Inter-Bold',
       color: colors.text,
+      marginBottom: 4,
+    },
+    headerSubtitle: {
+      fontSize: 14,
+      fontFamily: 'Inter-Medium',
+      color: colors.textSecondary,
     },
     content: {
       flex: 1,

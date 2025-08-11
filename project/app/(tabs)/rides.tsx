@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { MapPin, Clock, IndianRupee, Car } from 'lucide-react-native';
 
 const dummyRideHistory = [
@@ -52,6 +53,7 @@ const dummyRideHistory = [
 export default function RidesScreen() {
   const [rides] = useState(dummyRideHistory);
   const { colors } = useTheme();
+  const { user } = useAuth();
 
   const dynamicStyles = StyleSheet.create({
     container: {
@@ -207,7 +209,7 @@ export default function RidesScreen() {
     <SafeAreaView style={dynamicStyles.container}>
       <View style={dynamicStyles.header}>
         <Text style={dynamicStyles.headerTitle}>My Rides</Text>
-        <Text style={dynamicStyles.headerSubtitle}>Trip History</Text>
+        <Text style={dynamicStyles.headerSubtitle}>Welcome back, {user?.name}! • Trip History</Text>
       </View>
 
       <ScrollView style={dynamicStyles.content} showsVerticalScrollIndicator={false}>

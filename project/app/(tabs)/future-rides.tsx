@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTheme } from '@/contexts/ThemeContext';
+import { useAuth } from '@/contexts/AuthContext';
 import { MapPin, Clock, IndianRupee, User, Phone, Car, UserPlus, X } from 'lucide-react-native';
 
 const dummyFutureRides = [
@@ -54,6 +55,7 @@ const dummyDrivers = [
 
 export default function FutureRidesScreen() {
   const { colors } = useTheme();
+  const { user } = useAuth();
   const [rides, setRides] = useState(dummyFutureRides);
   const [showAssignModal, setShowAssignModal] = useState(false);
   const [selectedRide, setSelectedRide] = useState(null);
