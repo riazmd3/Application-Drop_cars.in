@@ -109,10 +109,19 @@ export default function MyDriversScreen() {
       borderBottomWidth: 1,
       borderBottomColor: colors.border,
     },
+    headerContent: {
+      alignItems: 'center',
+    },
     headerTitle: {
       fontSize: 18,
       fontFamily: 'Inter-SemiBold',
       color: colors.text,
+      marginBottom: 2,
+    },
+    headerSubtitle: {
+      fontSize: 12,
+      fontFamily: 'Inter-Medium',
+      color: colors.textSecondary,
     },
     content: {
       flex: 1,

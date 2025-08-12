@@ -58,10 +58,19 @@ export default function QuickDashboardScreen() {
       justifyContent: 'space-between',
       alignItems: 'center',
     },
+    headerContent: {
+      flex: 1,
+    },
     headerTitle: {
       fontSize: 20,
       fontFamily: 'Inter-Bold',
       color: colors.text,
+      marginBottom: 4,
+    },
+    headerSubtitle: {
+      fontSize: 14,
+      fontFamily: 'Inter-Medium',
+      color: colors.textSecondary,
     },
     content: {
       flex: 1,
@@ -179,7 +188,10 @@ export default function QuickDashboardScreen() {
   return (
     <SafeAreaView style={dynamicStyles.container}>
       <View style={dynamicStyles.header}>
-        <Text style={dynamicStyles.headerTitle}>Quick Driver Dashboard</Text>
+        <View style={dynamicStyles.headerContent}>
+          <Text style={dynamicStyles.headerTitle}>Quick Driver Dashboard</Text>
+          <Text style={dynamicStyles.headerSubtitle}>Welcome back, {user?.name}!</Text>
+        </View>
         <TouchableOpacity onPress={handleLogout} style={dynamicStyles.logoutButton}>
           <LogOut color={colors.error} size={24} />
         </TouchableOpacity>
